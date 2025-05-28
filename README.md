@@ -57,7 +57,7 @@ data/Biomed
 ```
 
 ## Usage
-Quick start to use our model. A demo script is available at 'example.py' and some examples are placed in './examples'.
+Quick start to use our model. A demo script is available at [example.py](https://github.com/Luffy03/UniBiomed/blob/main/example.py) and some examples are placed in './examples'.
 ```python
 import argparse
 import torch
