@@ -116,17 +116,16 @@ You can use our [trained model](https://huggingface.co/Luffy503/UniBiomed) on hu
 For segmentation (replace '$datasetname'):
 ```bash
 PYTHONPATH=. python demo/demo_seg2D.py --val_folder /data/Biomed/$datasetname --work-dir ./val_results/$datasetname --model_path Luffy503/UniBiomed
-# or you can run the bash tool to test all the datasets
-bash demo_seg.sh
 ```
 
 For grounded disease recognition:
 ```bash
 PYTHONPATH=. python demo/demo_disease.py --data_path ./data/Biomed/Disease/$datasetname --model_path Luffy503/UniBiomed --save_dir ./val_results/Grounded_disease/$datasetname
-# or
-bash demo_disease.sh
 # eval metrics
 python demo/eval_utils/metrics_grounded_disease.py  --root ./data/Biomed/Disease/$datasetname --prediction_dir_path ./val_results/Grounded_disease/$datasetname
+
+# or one for all
+bash demo_disease.sh
 ```
 
 For Region understand:
