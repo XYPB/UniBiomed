@@ -635,7 +635,18 @@ BioCryoNuSeg = dict(
     num_classes_per_sample=5,
     max_length=max_length,
 )
-
+BioDigestPath2019_colonoscopy_tissue_segment = dict(
+    type=ReferSegBiomedDataset,
+    tokenizer=tokenizer,
+    special_tokens=special_tokens,
+    extra_image_processor=extra_image_processor,
+    data_root=BIOMED_ROOT + 'DigestPath2019_colonoscopy_tissue_segment',
+    data_prefix=dict(img_path='train'),
+    ann_file='train.json',
+    prompt_template=prompt_template,
+    num_classes_per_sample=5,
+    max_length=max_length,
+)
 BioGlaS = dict(
     type=ReferSegBiomedDataset,
     tokenizer=tokenizer,
@@ -1248,7 +1259,7 @@ train_dataset = dict(
         BioRadiography_COVID, BioRadiography_Lung_Opacity, BioRadiography_Normal, BioRadiography_Viral_Pneumonia,
         BioREFUGE, Biosiim_acr_pneumothorax, BioUWaterlooSkinCancer,
         BioPanNuke,BioCoCaHis,
-        BioCryoNuSeg,
+        BioCryoNuSeg, BioDigestPath2019_colonoscopy_tissue_segment,
         BioGlaS, BioSICAPv2,BioWSSS4LUAD,
 
         ### biomedseg 3D crop as 2D
