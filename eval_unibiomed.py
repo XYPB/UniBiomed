@@ -190,12 +190,15 @@ def eval_unibiomed(conversations, gts):
             # text description
             prediction = pred_dict['prediction']
             # segmentation mask
-            mask = pred_dict['prediction_masks'][0][0]
-            mask = Image.fromarray((mask*255).astype('uint8'))
+            if 'prediction_masks' in pred_dict and len(pred_dict['prediction_masks']) > 0:
+                mask = pred_dict['prediction_masks'][0][0]
+                mask = Image.fromarray((mask*255).astype('uint8'))
             
-            image_suffix = image_path.split('.')[-1]
-            mask_path = image_path.replace(f".{image_suffix}", "unibiomed_mask.png")
-            mask.convert("L").save(mask_path)
+                image_suffix = image_path.split('.')[-1]
+                mask_path = image_path.replace(f".{image_suffix}", "unibiomed_mask.png")
+                mask.convert("L").save(mask_path)
+            else:
+                mask_path = ''
 
             output = {
                 "id": image_path,
