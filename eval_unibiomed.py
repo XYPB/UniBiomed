@@ -186,27 +186,37 @@ def eval_unibiomed(conversations, gts):
                 "text": question
             }
             
-            pred_dict = model.predict_forward(**data_dict, tokenizer=tokenizer)
-            # text description
-            prediction = pred_dict['prediction']
-            # segmentation mask
-            if 'prediction_masks' in pred_dict and len(pred_dict['prediction_masks']) > 0:
-                mask = pred_dict['prediction_masks'][0][0]
-                mask = Image.fromarray((mask*255).astype('uint8'))
-            
-                image_suffix = image_path.split('.')[-1]
-                mask_path = image_path.replace(f".{image_suffix}", "unibiomed_mask.png")
-                mask.convert("L").save(mask_path)
-            else:
-                mask_path = ''
+            try:
+                pred_dict = model.predict_forward(**data_dict, tokenizer=tokenizer)
+                # text description
+                prediction = pred_dict['prediction']
+                # segmentation mask
+                if 'prediction_masks' in pred_dict and len(pred_dict['prediction_masks']) > 0:
+                    mask = pred_dict['prediction_masks'][0][0]
+                    mask = Image.fromarray((mask*255).astype('uint8'))
+                
+                    image_suffix = image_path.split('.')[-1]
+                    mask_path = image_path.replace(f".{image_suffix}", "unibiomed_mask.png")
+                    mask.convert("L").save(mask_path)
+                else:
+                    mask_path = ''
 
-            output = {
-                "id": image_path,
-                "input": messages[1]["content"][0]['text'],
-                "output": prediction,
-                "mask": mask_path,
-                "gt": gts[idx] if idx < len(gts) else None
-            }
+                output = {
+                    "id": image_path,
+                    "input": messages[1]["content"][0]['text'],
+                    "output": prediction,
+                    "mask": mask_path,
+                    "gt": gts[idx] if idx < len(gts) else None
+                }
+            except Exception as e:
+                print(f"Error processing {image_path}: {e}")
+                output = {
+                    "id": image_path,
+                    "input": messages[1]["content"][0]['text'],
+                    "output": "error",
+                    "mask": "error",
+                    "gt": gts[idx] if idx < len(gts) else None
+                }
             outputs.append(output)
     return outputs
 
